@@ -179,7 +179,7 @@ source/
 ```yaml
 ---
 layout: post
-title: "'ブログのタイトル'"
+title: "'記事のタイトル'"
 date: 2016-08-25 00:00:00 +0900
 comments: true
 categories:
@@ -209,7 +209,7 @@ categories:
 ### ページの生成
 
 ```ruby
-$ bundle exec rake generated
+$ bundle exec rake generate
 
 ## Generating Site with Jekyll
     write source/stylesheets/screen.css
@@ -268,5 +268,12 @@ $ bundle exec rake deploy
 $ bundle exec rake gen_deploy
 ```
 
+最後に、ソースコードを管理するために、`source` ブランチも `push` しておく
+
+```
+$ git add .
+$ git commit -m 'message'
+$ git push origin source
+```
 
 
