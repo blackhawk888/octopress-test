@@ -14,12 +14,15 @@ categories: ['octopress']
 
 今回はブログ記事そのものは [GitHub Pages](https://pages.github.com/)にホスティングする。
 
+<!-- more -->
+
 ## GitHub Pagesの特徴
 
 - GitHubが提供するホスティングサービス
 - ウェブページをインターネット上に公開することができる。
 - プロジェクトのウェブページをGit/GitHubのリポジトリを用いて、公開することが可能(プロジェクトの場合はプロジェクトリポジトリの gh-pages ブランチで行う)
 - HTML,CSS, JavaScriptを配置することが出来るので、ブログだけではなくGitHub Pages だけで静的なページを作成することができる。
+
 
 今回はプロジェクトのウェブページを公開するプロジェクトサイト（Project site）ではなくユーザのウェブページを公開するユーザサイト（User site）[username].github.io
 でアクセスできるようにする。

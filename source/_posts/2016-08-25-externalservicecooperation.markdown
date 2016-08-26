@@ -12,6 +12,8 @@ categories: ['octopress']
 `twitter_tweet_button`、`google_plus_one`、`facebook_like`の値を`true`にすると、 記事の下にそれぞれのシェアリングボタンが出るようになる(デフォルトだとtwitterだけ表示されるようになっている )   
 Twitterは`twitter_user`を記入してやることで 自分のツイート等も表記できるように設定できる。
 
+<!-- more -->
+
 ### _config.ymal編集
 
 ```ruby
