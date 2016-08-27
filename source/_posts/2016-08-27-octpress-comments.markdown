@@ -24,7 +24,7 @@ categories: ['octopress']
 - shortnameを`_config.yml`に入力
 - deploy
 
-DISQUS導入は_config.ymlファイルにDISQUSで取得した`Shortname`を記載するのみで完了
+Disqus導入は_config.ymlファイルにDisqusで取得した`Shortname`を記載するのみで完了
 
 `_config.yml` の`disqus_short_name`に自分のサイトの`Shortname`を指定
 

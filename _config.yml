@@ -118,3 +118,6 @@ facebook_like: true
 # Disqus Comments
 # disqus_short_name: https-blackhawk888-github-io
 # disqus_show_comment_count: false
+
+# Google Analytics
+google_analytics_tracking_id: UA-83193160-1  # <- Google Analytics の ID を指定
