@@ -6,7 +6,7 @@ comments: true
 categories: ['octopress']
 ---
 
-### タグリストをサイバーに表示させる。
+### タグリストをサイドバーに表示させる。
 
 Octopressのデフォルトのサイドメニューは`Recent Posts`のみの表示  
 

@@ -8,7 +8,7 @@ categories: ['octopress']
 
 ## 日時表示設定
 
-投稿記事の日時はデフォルトで`AUG 25TH, 2016 3:00 PM`のような表示になっていが、
+投稿記事の日時はデフォルトで`AUG 25TH, 2016 3:00 PM`のような表示になっているが、
 [rubyの時間表記表現](http://ruby-doc.org/core-1.9.2/Time.html#method-i-strftim) を使って 好きなように変更可能
 
 <!-- more -->
