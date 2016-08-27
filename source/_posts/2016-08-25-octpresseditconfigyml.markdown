@@ -17,6 +17,15 @@ categories: ['octopress']
 
 ```ruby
 - date_format: "ordinal"
-+ date_format: "%Y年%m月%d日"
++ date_format: "%Y年%m月%d日" # e.g. 2016年08月25日
 ```
-上記の設定で”2016年8月25日”というような表示になる
+上記の設定で`2016年08月25日 8:15 PM`というような表示になる。  
+
+時間が12時間表記で気に入らなかったので24時間表記表示にするため`_config.ymlを編集`
+
+```ruby
+  date_format: "%Y年%m月%d日" # e.g. 2016年08月25日
++ time_format: "%H:%M:%S"     # 24 hour time
+```
+表示が`2016年08月25日 20:15:39`というような表示になる。
+
