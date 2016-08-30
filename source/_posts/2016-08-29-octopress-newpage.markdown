@@ -11,7 +11,7 @@ categories: [octopress]
 ### 新規ページ作成
 
 ```
-$ rake new_page[page_name]
+$ bundle exec rake new_page[page_name]
 Creating new page: source/[page_name]/index.markdown
 ```
 
@@ -48,7 +48,7 @@ hoge hoge
 
 ```
 
-ナビゲーションバーに新しく作成したページのタイトルが表示されリンクをクリックいて
+ナビゲーションバーに新しく作成したページタイトルが表示されクリックして
 ページが遷移することを確認する。
 
 

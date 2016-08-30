@@ -7,7 +7,7 @@ categories: [octopress]
 ---
 
 該当するmarkdownファイルを削除しデプロイするだけ。  
-ディレクトリの場所: source/_posts/
+ディレクトリの場所: `source/_posts/`
 
 ```
 $ rm source/_posts/post-title.markdown
