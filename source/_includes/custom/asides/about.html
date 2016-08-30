@@ -1,5 +1,9 @@
 <section>
   <h1>Profile</h1>
+  {% if site.gravatar_email %}
+    <img src="{% gravatar_image %}" alt="Gravatar of {{site.author}}" title="Gravatar of {{ site.author }}" align="left" style="margin-right:10px;" />
+  {% endif %}
   <p>Author: Wivern</p>
   <p>Profession: ネットワーク、サーバエンジニア</p>
+  <br clear="left">
 </section>

@@ -127,3 +127,7 @@ facebook_like: true
 
 # Google Analytics
 google_analytics_tracking_id: UA-83193160-1  # <- Google Analytics の ID を指定
+
+
+# Gravatar gravatar_email: youraddress@example.com
+gravatar_email: wivern888@gmail.com

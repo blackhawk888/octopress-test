@@ -37,7 +37,7 @@ $ git push  bitbucket source
 ```
 % git remote -v
 bitbucket       git@bitbucket.org:[username]/[username].github.io.git (fetch)
-bitbucket       git@bitbucket.org:wivern888/[username].github.io.git (push)
+bitbucket       git@bitbucket.org:[username]/[username].github.io.git (push)
 octopress       git://github.com/imathis/octopress.git (fetch)
 octopress       git://github.com/imathis/octopress.git (push)
 origin          git@github.com:[username]/[username].github.io.git (fetch)
