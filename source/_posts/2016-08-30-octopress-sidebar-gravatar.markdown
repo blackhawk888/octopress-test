@@ -37,10 +37,13 @@ $ cp gravatar.html [directory_name]/_includes/custom/asides
 
 ### _config.ymlに追記
 
-```
-+ # Gravatar  
-+ gravatar_email: youraddress@example.com
-```
+
+{% codeblock lang:yml _config.yml %}
+ + # Gravatar  
+ + gravatar_email: youraddress@example.com
+
+{% endcodeblock %}
+
 
 ### _config.ymlのdefault\_asides変数にgravatar.htmlを追加
 
