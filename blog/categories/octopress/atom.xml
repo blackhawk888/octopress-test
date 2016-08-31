@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | Wivern Blog]]></title>
+  <link href="http://blackhawk888.github.io/octopress-test/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://blackhawk888.github.io/octopress-test/"/>
+  <updated>2016-08-31T23:20:01+00:00</updated>
+  <id>http://blackhawk888.github.io/octopress-test/</id>
+  <author>
+    <name><![CDATA[wivern]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-Rakefile編集]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/31/octopress-edit-rakefile/"/>
+    <updated>2016-08-31T19:06:16+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/31/octopress-edit-rakefile</id>
+    <content type="html"><![CDATA[<p>新規作成時<code>bundle exec rake new_post[title]</code>に前回書いた<code>published</code>や<code>&lt;--more--&gt;</code>タグが初期値として
+入ってくれたらよいと思うので<code>Rakefile</code>を修正する。
+115行目あたりにかいてある。</p>
+
+<p><figure class='code'><figcaption><span>Rakefile </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">mdash</span><span class="p">;</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="ss">layout</span><span class="p">:</span> <span class="n">post</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="ss">title</span><span class="p">:</span> <span class="p">\</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="c1">#{title.gsub(/&amp;amp;/,&amp;lsquo;&amp;amp;&amp;rsquo;)}\&amp;ldquo;&amp;rdquo;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="ss">date</span><span class="p">:</span> <span class="c1">#{Time.now.strftime(&amp;lsquo;%Y-%m-%d %H:%M:%S %z&amp;rsquo;)}&amp;rdquo;</span>
+</span><span class='line'><span class="o">+</span> <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="ss">author</span><span class="p">:</span> <span class="o">[</span><span class="n">author</span><span class="o">]&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="ss">comments</span><span class="p">:</span> <span class="kp">true</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="o">+</span> <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="ss">published</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;categories: &amp;rdquo;</span>
+</span><span class='line'><span class="s2">post.puts &amp;ldquo;&amp;mdash;&amp;rdquo;</span>
+</span><span class='line'><span class="s2">+ post.puts &amp;ldquo;&amp;rdquo;</span>
+</span><span class='line'><span class="s2">+ post.puts &amp;ldquo;＜!&amp;ndash;more&amp;ndash;＞&amp;rdquo;</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<!--more-->
+
+
+<p><code>published</code>の他に、<code>author</code>の項目があるのでそれも設定。
+これで<code>bunde exec rake new_post[title]</code>を実行するとテンプレートとしてデフォルト
+<code>published: true</code>と<code>author: [author]</code>と記事に頭で<code>&lt;!—more—&gt;</code>が初期値として入るようになるので
+必要に併せて下書き中でdeployしたくなかったら<code>published: false</code>に変更し、<code>&lt;!--more--&gt;</code>タグの
+位置も変更すればよい。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-下書きをdeployしないようにする]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/31/octopress-draft/"/>
+    <updated>2016-08-31T15:59:56+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/31/octopress-draft</id>
+    <content type="html"><![CDATA[<p>下書きしていて完成してない状態でも、他の部分だけを公開したい時があると思う。<br/>
+その時はYAMLブロックに<code>published:false</code>加えるとそのファイルは<code>bundle exec rake generate</code>を実行すると
+下書きは生成されないが、<code>bundle exec rake preview</code>をした時は表示される。</p>
+
+<h2><figure class='code'><figcaption><span>exsample.markdown </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sr">/h2&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;layout: post</span>
+</span><span class='line'><span class="sr">title: &amp;ldquo;exsample&amp;rdquo;</span>
+</span><span class='line'><span class="sr">date: 2016-08-31 08:42:56 +0000</span>
+</span><span class='line'><span class="sr">comments: true</span>
+</span><span class='line'><span class="sr">categories: [exsample]&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;</span><span class="ss">published</span><span class="p">:</span> <span class="kp">false</span><span class="o">&lt;</span><span class="sr">/h2&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h3&gt;下書き中&lt;/</span><span class="n">h3</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<!--more-->
+
+
+<p><code>bundle exec gen_deploy</code>は<code>generate</code>が失敗した場合でも<code>deploy</code>を実行するので
+<code>generate</code>失敗な形で投稿されてしまうことがある。
+また下にある<code>published</code>のステートメントは最後の方に判断されるので、 後で投稿しようと思っている下書きがあって、
+今書いているものを投稿しようと<code>bundle exec gen_deploy</code>すると、 中途半端な今の記事と後で投稿する予定だった
+下書きの方が送られてしまうことがあるので ちょっとした変更以外は一旦<code>bundele exec generate</code>した方がよいかもしれない。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-サイドバーにProfile追加]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/30/octopress-sidebar-profile/"/>
+    <updated>2016-08-30T13:23:53+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/30/octopress-sidebar-profile</id>
+    <content type="html"><![CDATA[<p>デフォルトでプロフィール用のHTMLは以下の場所に作成されている。<br/>
+<code>source/_includes/custom/asides/about.html</code></p>
+
+<h3>about.htmlファイルを編集</h3>
+
+<pre><code>&lt;section&gt;
+  &lt;h1&gt;About Me&lt;/h1&gt;
+  &lt;p&gt;A little something about me.&lt;/p&gt;
+&lt;/section&gt;
+</code></pre>
+
+<!--more-->
+
+
+<p>サイドバーにabout.htmlを追加する場合は<code>_config.yml</code>に追記</p>
+
+<h3>_config.ymlの編集</h3>
+
+<p>サイドバーの先頭にプロフィールを表示させたいので、先頭に追記</p>
+
+<pre><code># list each of the sidebar modules you want to include, in the order you want them to appear.
+# To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
+# default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+default_asides: [
+  + custom/asides/about.html,
+    asides/recent_posts.html,
+    custom/asides/category_list.html,
+    custom/asides/tag_cloud.html,
+    asides/github.html, 
+    asides/delicious.html,
+    asides/pinboard.html, 
+    asides/googleplus.html
+    ]
+</code></pre>
+
+<p>サイドバーの<code>Recent Posts</code>の上に<code>Profile</code>で作成した<code>About Me</code>が表示される。</p>
+
+<p><img src="https://i.gyazo.com/3e88876a3442a236f47464741b565551.png" alt="octopress-sidebar-profile" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-新規ページ作成]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/29/octopress-newpage/"/>
+    <updated>2016-08-29T21:40:50+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/29/octopress-newpage</id>
+    <content type="html"><![CDATA[<p>新規投稿<code>bundle exec rake new_post[title]</code>ではなく新規ページを作成する。</p>
+
+<h3>新規ページ作成</h3>
+
+<pre><code>$ bundle exec rake new_page[page_name]
+Creating new page: source/[page_name]/index.markdown
+</code></pre>
+
+<!--more-->
+
+
+<h3>新規ページ編集</h3>
+
+<p>ナビゲーションバーから新規ページへのリンクを追加<br/>
+<code>source/_includes/custom/navigation.html</code>を編集</p>
+
+<p>```</p>
+
+<ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    + <li><a href="/about">[new_page]</a></li>
+</ul>
+
+
+<pre><code>
+新規ページを編集  
+`source/[new_page]/index.markdown`を編集
+</code></pre>
+
+<hr />
+
+<p>layout: page
+title: &ldquo;[new_page]&rdquo;
+date: 2016-08-29 21:30
+comments: false
+sharing: true</p>
+
+<h2>footer: true</h2>
+
+<h3>本文</h3>
+
+<p>hoge hoge</p>
+
+<p>```</p>
+
+<p>ナビゲーションバーに新しく作成したページタイトルが表示されクリックして
+ページが遷移することを確認する。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress 記事の削除]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/29/octopress-post-delete/"/>
+    <updated>2016-08-29T20:21:05+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/29/octopress-post-delete</id>
+    <content type="html"><![CDATA[<p>該当するmarkdownファイルを削除しデプロイするだけ。<br/>
+ディレクトリの場所: <code>source/_posts/</code></p>
+
+<pre><code>$ rm source/_posts/post-title.markdown
+$ rake gen_deploy
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

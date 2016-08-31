@@ -1,1 +1,663 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Wivern Blog</title>
+  <meta name="author" content="wivern">
+
+  
+  <meta name="description" content="新規作成時bundle exec rake new_post[title]に前回書いたpublishedや&lt;--more--&gt;タグが初期値として
+入ってくれたらよいと思うのでRakefileを修正する。
+115行目あたりにかいてある。 Rakefile 1
+2
+3
+4
+5
+6
+7
+8 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blackhawk888.github.io/octopress-test/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wivern Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-83193160-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wivern Blog</a></h1>
+  
+    <h2>Personal-Tech memorandum</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blackhawk888.github.io/octopress-test">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/31/octopress-edit-rakefile/">Octopress-Rakefile編集</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-31T19:06:16+00:00'><span class='date'>2016年08月31日</span> <span class='time'>19:06:16</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>新規作成時<code>bundle exec rake new_post[title]</code>に前回書いた<code>published</code>や<code>&lt;--more--&gt;</code>タグが初期値として
+入ってくれたらよいと思うので<code>Rakefile</code>を修正する。
+115行目あたりにかいてある。</p>
+
+<figure class='code'><figcaption><span>Rakefile </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;layout: post&quot;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;title: </span><span class="se">\&quot;</span><span class="si">#{</span><span class="n">title</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/&amp;/</span><span class="p">,</span><span class="s1">&#39;&amp;amp;&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;date: </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-%d %H:%M:%S %z&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="o">+</span> <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;author: [author]&quot;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;comments: true&quot;</span>
+</span><span class='line'><span class="o">+</span> <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;published: true</span>
+</span><span class='line'><span class="s2">post.puts &quot;</span><span class="ss">categories</span><span class="p">:</span> <span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">post.puts &quot;</span><span class="o">---</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">+ post.puts &quot;&quot;</span>
+</span><span class='line'><span class="s2">+ post.puts &quot;</span><span class="err">＜</span><span class="o">!--</span><span class="n">more</span><span class="o">--</span><span class="err">＞</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/31/octopress-edit-rakefile/">続きを読む &raquo;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/31/octopress-draft/">Octopress-下書きをdeployしないようにする</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-31T15:59:56+00:00'><span class='date'>2016年08月31日</span> <span class='time'>15:59:56</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>下書きしていて完成してない状態でも、他の部分だけを公開したい時があると思う。<br/>
+その時はYAMLブロックに<code>published:false</code>加えるとそのファイルは<code>bundle exec rake generate</code>を実行すると
+下書きは生成されないが、<code>bundle exec rake preview</code>をした時は表示される。</p>
+
+<figure class='code'><figcaption><span>exsample.markdown </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">---</span>
+</span><span class='line'><span class="ss">layout</span><span class="p">:</span> <span class="n">post</span>
+</span><span class='line'><span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;exsample&quot;</span>
+</span><span class='line'><span class="ss">date</span><span class="p">:</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">31</span> <span class="mi">08</span><span class="p">:</span><span class="mi">42</span><span class="p">:</span><span class="mi">56</span> <span class="o">+</span><span class="mo">0000</span>
+</span><span class='line'><span class="ss">comments</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="ss">categories</span><span class="p">:</span> <span class="o">[</span><span class="n">exsample</span><span class="o">]</span>
+</span><span class='line'><span class="ss">published</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="o">---</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">### 下書き中</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/31/octopress-draft/">続きを読む &raquo;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/30/octopress-sidebar-gravatar/">Octopress-サイドバーにGravatar追加</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-30T16:00:38+00:00'><span class='date'>2016年08月30日</span> <span class='time'>16:00:38</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>サイドバーにProfileを表示させるようにしたのでついでにGravatarも表示させてみる。</p>
+
+<p><a href="https://ja.gravatar.com/site/implement/">Gravatarに開発者向け資料</a>があったので
+見てみるとJSONでプロフィール情報を返すAPIを提供しているようなのでそれ使って情報を持ってきて、
+画面に反映させなきゃいけないと思っていてGithubを眺めていたらOctopressでGravatarを表示させる
+プラグインがあったのでそれを使用してみることにした。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/30/octopress-sidebar-gravatar/">続きを読む &raquo;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/30/octopress-sidebar-profile/">Octopress-サイドバーにProfile追加</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-30T13:23:53+00:00'><span class='date'>2016年08月30日</span> <span class='time'>13:23:53</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>デフォルトでプロフィール用のHTMLは以下の場所に作成されている。<br/>
+<code>source/_includes/custom/asides/about.html</code></p>
+
+<h3>about.htmlファイルを編集</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;section&gt;
+</span><span class='line'>  &lt;h1&gt;About Me&lt;/h1&gt;
+</span><span class='line'>  &lt;p&gt;A little something about me.&lt;/p&gt;
+</span><span class='line'>&lt;/section&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/30/octopress-sidebar-profile/">続きを読む &raquo;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/29/octopress-newpage/">Octopress-新規ページ作成</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-29T21:40:50+00:00'><span class='date'>2016年08月29日</span> <span class='time'>21:40:50</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>新規投稿<code>bundle exec rake new_post[title]</code>ではなく新規ページを作成する。</p>
+
+<h3>新規ページ作成</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake new_page[page_name]
+</span><span class='line'>Creating new page: source/[page_name]/index.markdown</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/29/octopress-newpage/">続きを読む &raquo;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/29/octopress-post-delete/">Octopress 記事の削除</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-29T20:21:05+00:00'><span class='date'>2016年08月29日</span> <span class='time'>20:21:05</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>該当するmarkdownファイルを削除しデプロイするだけ。<br/>
+ディレクトリの場所: <code>source/_posts/</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rm source/_posts/post-title.markdown
+</span><span class='line'>$ rake gen_deploy</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/28/octopress-webmaster/">Octopress-Googleウェブマスターツール登録</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-28T20:47:11+00:00'><span class='date'>2016年08月28日</span> <span class='time'>20:47:11</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Googleウェブマスターツールとは</h3>
+
+<p>Googleが公式で提供するウェブ担当者・管理者のためのツール</p>
+
+<p>Googleウェブマスターツールに登録することで、</p>
+
+<ul>
+<li>自分のサイトをGoogleの検索エンジンに早く見つけてもらえ</li>
+<li>どんなキーワードで表示されているかが分かる</li>
+<li>そのページがよく検索されているのかがわかる</li>
+<li>サイトの集客をアップさせたり、SEOにも役立つ</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/28/octopress-webmaster/">続きを読む &raquo;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/28/octopress-theme/">Octopress-theme変更</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-28T19:09:08+00:00'><span class='date'>2016年08月28日</span> <span class='time'>19:09:08</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Octopressのテーマを変更</h3>
+
+<p>今回casperというテーマに変更してみる。
+基本Githubにある<code>README.md</code>の手順どおりに進めればよい。</p>
+
+<h3>Installing</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd &lt;octopress directory&gt;
+</span><span class='line'>$ git clone https://github.com/jkrmr/casper .themes/casper
+</span><span class='line'>$ rake install['casper']
+</span><span class='line'>$ rake generate</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/28/octopress-theme/">続きを読む &raquo;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/28/octopress-facebook-like/">Octopress Facebook Like ボタン日本語化</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-28T15:43:39+00:00'><span class='date'>2016年08月28日</span> <span class='time'>15:43:39</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>FacebookのLikeボタン日本語化</h3>
+
+<p>以前外部サービス連携でFacebookボタンを追加したが[Like]、[share]と英語表記になっているので
+日本語の[いいね]、[シェア]に変更</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/28/octopress-facebook-like/">続きを読む &raquo;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/28/octopress-projectpage-ghpages/">OctopressをGitHubのProject Pageで作成</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-28T14:56:55+00:00'><span class='date'>2016年08月28日</span> <span class='time'>14:56:55</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Project Page (gh-pages) にデプロイする場合</h3>
+
+<p>Github Pagesでサイトを公開する場合は<code>[username].github.io</code>というリポジトリを作成し、
+デプロイすることで<code>https://[username].github.io</code>でアクセスすることができるが、任意のリポジトリを作成し、
+Project Page(gh-pages)にデプロイすることもできる。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/28/octopress-projectpage-ghpages/">続きを読む &raquo;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/2">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Profile</h1>
+  
+    <img src="http://www.gravatar.com/avatar/d193dda398c5fa836f1d8007d64be8de" alt="Gravatar of wivern" title="Gravatar of wivern" align="left" style="margin-right:10px;" />
+  
+  Hoge Hoge
+  <br clear="left">
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/31/octopress-edit-rakefile/">Octopress-Rakefile編集</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/31/octopress-draft/">Octopress-下書きをdeployしないようにする</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/30/octopress-sidebar-gravatar/">Octopress-サイドバーにGravatar追加</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/30/octopress-sidebar-profile/">Octopress-サイドバーにProfile追加</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/29/octopress-newpage/">Octopress-新規ページ作成</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/bitbacket/'>bitbacket (1)</a></li><li><a href='/blog/categories/google-analytics/'>google analytics (1)</a></li><li><a href='/blog/categories/octopress/'>octopress (17)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/bitbacket' style='font-size: 103.52941176470588%'>bitbacket(1)</a> <a href='/blog/categories/google-analytics' style='font-size: 103.52941176470588%'>google analytics(1)</a> <a href='/blog/categories/octopress' style='font-size: 160.0%'>octopress(17)</a> </span>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wivern -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

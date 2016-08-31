@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Google Analytics | Wivern Blog]]></title>
+  <link href="http://blackhawk888.github.io/octopress-test/blog/categories/google-analytics/atom.xml" rel="self"/>
+  <link href="http://blackhawk888.github.io/octopress-test/"/>
+  <updated>2016-08-31T23:20:01+00:00</updated>
+  <id>http://blackhawk888.github.io/octopress-test/</id>
+  <author>
+    <name><![CDATA[wivern]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OctopressにGoogle Analytics導入]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-google-analytics/"/>
+    <updated>2016-08-27T20:05:08+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-google-analytics</id>
+    <content type="html"><![CDATA[<h3>Google Analytics設定</h3>
+
+<p>Google Analytics(アナリティクス)とは、アクセス解析を行うことができる解析ツール。<br/>
+Octopress は、デフォルトで Google Analytics の設定をすることが可能。</p>
+
+<!--more-->
+
+
+<p>サイトページ内にトラッキングコードと呼ばれるJavaScript コードを埋め込み、
+訪問者がサイトへアクセスした際の閲覧情報がGoogle Analyticsサーバへ送信される仕組み。
+トラッキング IDとはUA-XXXXXXXX-Xのような文字列で、データの送信先となるアカウントや
+プロパティを Google アナリティクス側で特定するためのID。</p>
+
+<p><a href="http://www.google.co.jp/intl/ja/analytics/">Google Analytics</a>サイトに行き、ログインまたは
+アカウントを作成をクリックしログイン後、<code>プロパティ名</code>、<code>デフォルトのURL</code>等を設定し保存すると
+<code>トラッキング ID</code>が表示されるので<code>_config.yml</code>に設定する。</p>
+
+<h3>_config.ymlの編集</h3>
+
+<pre><code class="ruby"># Google Analytics
+google_analytics_tracking_id: UA-XXXXXXXX-X  # &lt;- Google Analytics ID を指定
+</code></pre>
+
+<p>ブログにアクセスされるたびに Google Analyticsで集計される。</p>
+]]></content>
+  </entry>
+  
+</feed>

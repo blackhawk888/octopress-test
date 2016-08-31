@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OctopressでsourceをBitbucket管理 - Wivern Blog</title>
+  <meta name="author" content="wivern">
+
+  
+  <meta name="description" content="ソース情報はBitbucketで管理 このブログはOctopressでGithubでホスティングしているが、ソースコードもGithubにpushしている。
+GitHubはいいサービスだと思うのですが、ソースコードの共有が前提となっていて、
+無料プランでは非公開リポジトリを作ることができない。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-repository-bitbacket/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wivern Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-83193160-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wivern Blog</a></h1>
+  
+    <h2>Personal-Tech memorandum</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blackhawk888.github.io/octopress-test">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">OctopressでsourceをBitbucket管理</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-27T15:47:33+00:00'><span class='date'>2016年08月27日</span> <span class='time'>15:47:33</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>ソース情報はBitbucketで管理</h3>
+
+<p>このブログはOctopressでGithubでホスティングしているが、ソースコードもGithubにpushしている。<br/>
+GitHubはいいサービスだと思うのですが、ソースコードの共有が前提となっていて、
+無料プランでは非公開リポジトリを作ることができない。</p>
+
+<!--more-->
+
+
+<p>BitbucketはGitHubと同じ、バージョン管理ツールのリポジトリを預かってくれるホスティングサービス。<br/>
+5ユーザーまでであれば、非公開レポジトリの数は無制限となっており、公開リポジトリがひとつもなくても構いません。<br/>
+Bitbacketのアカウントも取得しているのでソースコードをBitbacketで管理する方法も忘れないように書いておこうと思う。</p>
+
+<h3>Bitbucketでのリポジトリ作成・設定</h3>
+
+<ul>
+<li>BitBucketにログインして、リポジトリ作成</li>
+<li>[Repository name] - [GithubのRipository name]</li>
+<li>[アクセスレベル] - [これは非公開リポジトリです]にチェック</li>
+<li>[リポジトリタイプ] - [Git]</li>
+</ul>
+
+
+<h3>リモートととして登録</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote add bitbucket git@bitbucket.org:[username]/[username].github.io.git
+</span><span class='line'>$ git push  bitbucket source</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記の設定で現在リモートとして <code>origin</code>、<code>octopress</code>、<code>bitbucket</code> の3つが登録されることとなる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>% git remote -v
+</span><span class='line'>bitbucket       git@bitbucket.org:[username]/[username].github.io.git (fetch)
+</span><span class='line'>bitbucket       git@bitbucket.org:[username]/[username].github.io.git (push)
+</span><span class='line'>octopress       git://github.com/imathis/octopress.git (fetch)
+</span><span class='line'>octopress       git://github.com/imathis/octopress.git (push)
+</span><span class='line'>origin          git@github.com:[username]/[username].github.io.git (fetch)
+</span><span class='line'>origin          git@github.com:[username]/[username].github.io.git (push)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>記事の投稿をデプロイする場合は<code>bundle exec rake deploy</code>でバックアップは<code>git push bitbacket source</code>でBitbacketできるようになる。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wivern</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-08-27T15:47:33+00:00'><span class='date'>2016年08月27日</span> <span class='time'>15:47:33</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/bitbacket/'>bitbacket</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-repository-bitbacket/" data-via="" data-counturl="http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-repository-bitbacket/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/08/27/octpress-comments/" title="Previous Post: Octopressにコメントを追加">&laquo; Octopressにコメントを追加</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/08/27/octopress-google-analytics/" title="Next Post: OctopressにGoogle Analytics導入">OctopressにGoogle Analytics導入 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Profile</h1>
+  
+    <img src="http://www.gravatar.com/avatar/d193dda398c5fa836f1d8007d64be8de" alt="Gravatar of wivern" title="Gravatar of wivern" align="left" style="margin-right:10px;" />
+  
+  Hoge Hoge
+  <br clear="left">
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/31/octopress-edit-rakefile/">Octopress-Rakefile編集</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/31/octopress-draft/">Octopress-下書きをdeployしないようにする</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/30/octopress-sidebar-gravatar/">Octopress-サイドバーにGravatar追加</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/30/octopress-sidebar-profile/">Octopress-サイドバーにProfile追加</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/29/octopress-newpage/">Octopress-新規ページ作成</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/bitbacket/'>bitbacket (1)</a></li><li><a href='/blog/categories/google-analytics/'>google analytics (1)</a></li><li><a href='/blog/categories/octopress/'>octopress (17)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/bitbacket' style='font-size: 103.52941176470588%'>bitbacket(1)</a> <a href='/blog/categories/google-analytics' style='font-size: 103.52941176470588%'>google analytics(1)</a> <a href='/blog/categories/octopress' style='font-size: 160.0%'>octopress(17)</a> </span>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wivern -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

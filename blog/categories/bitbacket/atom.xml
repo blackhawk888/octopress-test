@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Bitbacket | Wivern Blog]]></title>
+  <link href="http://blackhawk888.github.io/octopress-test/blog/categories/bitbacket/atom.xml" rel="self"/>
+  <link href="http://blackhawk888.github.io/octopress-test/"/>
+  <updated>2016-08-31T23:20:01+00:00</updated>
+  <id>http://blackhawk888.github.io/octopress-test/</id>
+  <author>
+    <name><![CDATA[wivern]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OctopressでsourceをBitbucket管理]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-repository-bitbacket/"/>
+    <updated>2016-08-27T15:47:33+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-repository-bitbacket</id>
+    <content type="html"><![CDATA[<h3>ソース情報はBitbucketで管理</h3>
+
+<p>このブログはOctopressでGithubでホスティングしているが、ソースコードもGithubにpushしている。<br/>
+GitHubはいいサービスだと思うのですが、ソースコードの共有が前提となっていて、
+無料プランでは非公開リポジトリを作ることができない。</p>
+
+<!--more-->
+
+
+<p>BitbucketはGitHubと同じ、バージョン管理ツールのリポジトリを預かってくれるホスティングサービス。<br/>
+5ユーザーまでであれば、非公開レポジトリの数は無制限となっており、公開リポジトリがひとつもなくても構いません。<br/>
+Bitbacketのアカウントも取得しているのでソースコードをBitbacketで管理する方法も忘れないように書いておこうと思う。</p>
+
+<h3>Bitbucketでのリポジトリ作成・設定</h3>
+
+<ul>
+<li>BitBucketにログインして、リポジトリ作成</li>
+<li>[Repository name] - [GithubのRipository name]</li>
+<li>[アクセスレベル] - [これは非公開リポジトリです]にチェック</li>
+<li>[リポジトリタイプ] - [Git]</li>
+</ul>
+
+
+<h3>リモートととして登録</h3>
+
+<pre><code>$ git remote add bitbucket git@bitbucket.org:[username]/[username].github.io.git
+$ git push  bitbucket source
+</code></pre>
+
+<p>上記の設定で現在リモートとして <code>origin</code>、<code>octopress</code>、<code>bitbucket</code> の3つが登録されることとなる。</p>
+
+<pre><code>% git remote -v
+bitbucket       git@bitbucket.org:[username]/[username].github.io.git (fetch)
+bitbucket       git@bitbucket.org:[username]/[username].github.io.git (push)
+octopress       git://github.com/imathis/octopress.git (fetch)
+octopress       git://github.com/imathis/octopress.git (push)
+origin          git@github.com:[username]/[username].github.io.git (fetch)
+origin          git@github.com:[username]/[username].github.io.git (push)
+</code></pre>
+
+<p>記事の投稿をデプロイする場合は<code>bundle exec rake deploy</code>でバックアップは<code>git push bitbacket source</code>でBitbacketできるようになる。</p>
+]]></content>
+  </entry>
+  
+</feed>

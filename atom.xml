@@ -1,0 +1,1394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Wivern Blog]]></title>
+  <link href="http://blackhawk888.github.io/octopress-test/atom.xml" rel="self"/>
+  <link href="http://blackhawk888.github.io/octopress-test/"/>
+  <updated>2016-08-31T23:20:01+00:00</updated>
+  <id>http://blackhawk888.github.io/octopress-test/</id>
+  <author>
+    <name><![CDATA[wivern]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-Rakefile編集]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/31/octopress-edit-rakefile/"/>
+    <updated>2016-08-31T19:06:16+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/31/octopress-edit-rakefile</id>
+    <content type="html"><![CDATA[<p>新規作成時<code>bundle exec rake new_post[title]</code>に前回書いた<code>published</code>や<code>&lt;--more--&gt;</code>タグが初期値として
+入ってくれたらよいと思うので<code>Rakefile</code>を修正する。
+115行目あたりにかいてある。</p>
+
+<figure class='code'><figcaption><span>Rakefile </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;layout: post&quot;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;title: </span><span class="se">\&quot;</span><span class="si">#{</span><span class="n">title</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/&amp;/</span><span class="p">,</span><span class="s1">&#39;&amp;amp;&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;date: </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-%d %H:%M:%S %z&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="o">+</span> <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;author: [author]&quot;</span>
+</span><span class='line'><span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;comments: true&quot;</span>
+</span><span class='line'><span class="o">+</span> <span class="n">post</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&quot;published: true</span>
+</span><span class='line'><span class="s2">post.puts &quot;</span><span class="ss">categories</span><span class="p">:</span> <span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">post.puts &quot;</span><span class="o">---</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">+ post.puts &quot;&quot;</span>
+</span><span class='line'><span class="s2">+ post.puts &quot;</span><span class="err">＜</span><span class="o">!--</span><span class="n">more</span><span class="o">--</span><span class="err">＞</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<p><code>published</code>の他に、<code>author</code>の項目があるのでそれも設定。
+これで<code>bunde exec rake new_post[title]</code>を実行するとテンプレートとしてデフォルト
+<code>published: true</code>と<code>author: [author]</code>と記事に頭で<code>&lt;!—more—&gt;</code>が初期値として入るようになるので
+必要に併せて下書き中でdeployしたくなかったら<code>published: false</code>に変更し、<code>&lt;!--more--&gt;</code>タグの
+位置も変更すればよい。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-下書きをdeployしないようにする]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/31/octopress-draft/"/>
+    <updated>2016-08-31T15:59:56+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/31/octopress-draft</id>
+    <content type="html"><![CDATA[<p>下書きしていて完成してない状態でも、他の部分だけを公開したい時があると思う。<br/>
+その時はYAMLブロックに<code>published:false</code>加えるとそのファイルは<code>bundle exec rake generate</code>を実行すると
+下書きは生成されないが、<code>bundle exec rake preview</code>をした時は表示される。</p>
+
+<figure class='code'><figcaption><span>exsample.markdown </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">---</span>
+</span><span class='line'><span class="ss">layout</span><span class="p">:</span> <span class="n">post</span>
+</span><span class='line'><span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;exsample&quot;</span>
+</span><span class='line'><span class="ss">date</span><span class="p">:</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">31</span> <span class="mi">08</span><span class="p">:</span><span class="mi">42</span><span class="p">:</span><span class="mi">56</span> <span class="o">+</span><span class="mo">0000</span>
+</span><span class='line'><span class="ss">comments</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="ss">categories</span><span class="p">:</span> <span class="o">[</span><span class="n">exsample</span><span class="o">]</span>
+</span><span class='line'><span class="ss">published</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="o">---</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">### 下書き中</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<p><code>bundle exec gen_deploy</code>は<code>generate</code>が失敗した場合でも<code>deploy</code>を実行するので
+<code>generate</code>失敗な形で投稿されてしまうことがある。
+また下にある<code>published</code>のステートメントは最後の方に判断されるので、 後で投稿しようと思っている下書きがあって、
+今書いているものを投稿しようと<code>bundle exec gen_deploy</code>すると、 中途半端な今の記事と後で投稿する予定だった
+下書きの方が送られてしまうことがあるので ちょっとした変更以外は一旦<code>bundele exec generate</code>した方がよいかもしれない。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-サイドバーにGravatar追加]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/30/octopress-sidebar-gravatar/"/>
+    <updated>2016-08-30T16:00:38+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/30/octopress-sidebar-gravatar</id>
+    <content type="html"><![CDATA[<p>サイドバーにProfileを表示させるようにしたのでついでにGravatarも表示させてみる。</p>
+
+<p><a href="https://ja.gravatar.com/site/implement/">Gravatarに開発者向け資料</a>があったので
+見てみるとJSONでプロフィール情報を返すAPIを提供しているようなのでそれ使って情報を持ってきて、
+画面に反映させなきゃいけないと思っていてGithubを眺めていたらOctopressでGravatarを表示させる
+プラグインがあったのでそれを使用してみることにした。</p>
+
+<!--more-->
+
+
+<p><a href="https://github.com/joet3ch/gravatar-octopress">joet3ch/gravatar-octopress</a><br/>
+簡単に説明するとGravatarの画像をimgタグでひっぱってこれるようになるので、
+それを参考にしつつ、souce/_include/custom/asides/about.html を編集するという流れ。</p>
+
+<p>以下手順</p>
+
+<h3>インストール</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone https://github.com/joet3ch/gravatar-octopress.git</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><code>gravatar.html</code>を<code>_includes/custom/asides</code>にコピー</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd gravatar-octopress
+</span><span class='line'>$ cp gravatar.html [directory_name]/_includes/custom/asides</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>_config.ymlに追記</h3>
+
+<figure class='code'><figcaption><span>_config.yml </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'> <span class="l-Scalar-Plain">+</span> <span class="c1"># Gravatar  </span>
+</span><span class='line'> <span class="l-Scalar-Plain">+ gravatar_email</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">youraddress@example.com</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>_config.ymlのdefault_asides変数にgravatar.htmlを追加</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># list each of the sidebar modules you want to include, in the order you want them to appear.
+</span><span class='line'># To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
+</span><span class='line'># default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+</span><span class='line'>default_asides: [
+</span><span class='line'>  + custom/asides/about.html,
+</span><span class='line'>    asides/recent_posts.html,
+</span><span class='line'>    custom/asides/category_list.html,
+</span><span class='line'>    custom/asides/tag_cloud.html,
+</span><span class='line'>    asides/github.html, 
+</span><span class='line'>    asides/delicious.html,
+</span><span class='line'>    asides/pinboard.html, 
+</span><span class='line'>    asides/googleplus.html
+</span><span class='line'>    ]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Gravatar導入前</strong></p>
+
+<p><img src="https://i.gyazo.com/26245cde8185fad41104a09e79e3a8cc.png" alt="Gravatar導入前" /></p>
+
+<p><strong>Gravatar導入後</strong></p>
+
+<p><img src="https://i.gyazo.com/0211d5f0a5057fcf087250a9248d0b6c.png" alt="Gravatar導入後" /></p>
+
+<p>Gravatarの画像がProfileの上に来ているので<code>config.yml</code>の<code>asides</code>に設定するのではなく
+<code>souce/_include/custom/asides/about.html</code>を編集するように変更。</p>
+
+<h3>_config.ymlの編集</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># list each of the sidebar modules you want to include, in the order you want them to appear.
+</span><span class='line'># To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
+</span><span class='line'># default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+</span><span class='line'>default_asides: [
+</span><span class='line'>  - custom/asides/about.html,
+</span><span class='line'>    asides/recent_posts.html,
+</span><span class='line'>    custom/asides/category_list.html,
+</span><span class='line'>    custom/asides/tag_cloud.html,
+</span><span class='line'>    asides/github.html, 
+</span><span class='line'>    asides/delicious.html,
+</span><span class='line'>    asides/pinboard.html, 
+</span><span class='line'>    asides/googleplus.html
+</span><span class='line'>    ]</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>souce/_include/custom/asides/about.html編集</h3>
+
+<p><code>about.html</code>を以下のように変更</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;section&gt;
+</span><span class='line'>  &lt;h1&gt;Profile&lt;/h1&gt;
+</span><span class='line'>  
+</span><span class='line'>    &lt;img src="http://www.gravatar.com/avatar/d193dda398c5fa836f1d8007d64be8de" alt="Gravatar of wivern" title="Gravatar of wivern" align="left" style="margin-right:10px;" /&gt;
+</span><span class='line'>  
+</span><span class='line'>  Hoge Hoge
+</span><span class='line'>  &lt;br clear="left"&gt;
+</span><span class='line'>&lt;/section&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>about.html編集後</strong></p>
+
+<p><img src="https://i.gyazo.com/8459f225d4670991f1b76d844b772e6f.png" alt="about.html編集後" /></p>
+
+<p>Gravatarの画像イメージサイズは<code>gravatar.html</code>を編集することで可能</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;img src="http://www.gravatar.com/avatar/d193dda398c5fa836f1d8007d64be8de?s=200" alt="Gravatar of wivern " title="Gravatar of wivern" /&gt;</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-サイドバーにProfile追加]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/30/octopress-sidebar-profile/"/>
+    <updated>2016-08-30T13:23:53+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/30/octopress-sidebar-profile</id>
+    <content type="html"><![CDATA[<p>デフォルトでプロフィール用のHTMLは以下の場所に作成されている。<br/>
+<code>source/_includes/custom/asides/about.html</code></p>
+
+<h3>about.htmlファイルを編集</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;section&gt;
+</span><span class='line'>  &lt;h1&gt;About Me&lt;/h1&gt;
+</span><span class='line'>  &lt;p&gt;A little something about me.&lt;/p&gt;
+</span><span class='line'>&lt;/section&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<p>サイドバーにabout.htmlを追加する場合は<code>_config.yml</code>に追記</p>
+
+<h3>_config.ymlの編集</h3>
+
+<p>サイドバーの先頭にプロフィールを表示させたいので、先頭に追記</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># list each of the sidebar modules you want to include, in the order you want them to appear.
+</span><span class='line'># To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
+</span><span class='line'># default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+</span><span class='line'>default_asides: [
+</span><span class='line'>  + custom/asides/about.html,
+</span><span class='line'>    asides/recent_posts.html,
+</span><span class='line'>    custom/asides/category_list.html,
+</span><span class='line'>    custom/asides/tag_cloud.html,
+</span><span class='line'>    asides/github.html, 
+</span><span class='line'>    asides/delicious.html,
+</span><span class='line'>    asides/pinboard.html, 
+</span><span class='line'>    asides/googleplus.html
+</span><span class='line'>    ]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>サイドバーの<code>Recent Posts</code>の上に<code>Profile</code>で作成した<code>About Me</code>が表示される。</p>
+
+<p><img src="https://i.gyazo.com/3e88876a3442a236f47464741b565551.png" alt="octopress-sidebar-profile" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-新規ページ作成]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/29/octopress-newpage/"/>
+    <updated>2016-08-29T21:40:50+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/29/octopress-newpage</id>
+    <content type="html"><![CDATA[<p>新規投稿<code>bundle exec rake new_post[title]</code>ではなく新規ページを作成する。</p>
+
+<h3>新規ページ作成</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake new_page[page_name]
+</span><span class='line'>Creating new page: source/[page_name]/index.markdown</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<h3>新規ページ編集</h3>
+
+<p>ナビゲーションバーから新規ページへのリンクを追加<br/>
+<code>source/_includes/custom/navigation.html</code>を編集</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;ul class="main"&gt;
+</span><span class='line'>    &lt;li&gt;&lt;a href="http://blackhawk888.github.io/octopress-test/"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>    &lt;li&gt;&lt;a href="http://blackhawk888.github.io/octopress-test/blog/archives"&gt;Archives&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>    + &lt;li&gt;&lt;a href="http://blackhawk888.github.io/octopress-test/about"&gt;[new_page]&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>&lt;/ul&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>新規ページを編集<br/>
+<code>source/[new_page]/index.markdown</code>を編集</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>---
+</span><span class='line'>layout: page
+</span><span class='line'>title: "[new_page]"
+</span><span class='line'>date: 2016-08-29 21:30
+</span><span class='line'>comments: false
+</span><span class='line'>sharing: true
+</span><span class='line'>footer: true
+</span><span class='line'>---
+</span><span class='line'>
+</span><span class='line'>###本文
+</span><span class='line'>hoge hoge
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ナビゲーションバーに新しく作成したページタイトルが表示されクリックして
+ページが遷移することを確認する。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress 記事の削除]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/29/octopress-post-delete/"/>
+    <updated>2016-08-29T20:21:05+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/29/octopress-post-delete</id>
+    <content type="html"><![CDATA[<p>該当するmarkdownファイルを削除しデプロイするだけ。<br/>
+ディレクトリの場所: <code>source/_posts/</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rm source/_posts/post-title.markdown
+</span><span class='line'>$ rake gen_deploy</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-Googleウェブマスターツール登録]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-webmaster/"/>
+    <updated>2016-08-28T20:47:11+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-webmaster</id>
+    <content type="html"><![CDATA[<h3>Googleウェブマスターツールとは</h3>
+
+<p>Googleが公式で提供するウェブ担当者・管理者のためのツール</p>
+
+<p>Googleウェブマスターツールに登録することで、</p>
+
+<ul>
+<li>自分のサイトをGoogleの検索エンジンに早く見つけてもらえ</li>
+<li>どんなキーワードで表示されているかが分かる</li>
+<li>そのページがよく検索されているのかがわかる</li>
+<li>サイトの集客をアップさせたり、SEOにも役立つ</li>
+</ul>
+
+
+<!--more-->
+
+
+<p>手順は以下のとおり</p>
+
+<ul>
+<li><a href="https://www.google.com/webmasters/tools/home?hl=ja">Googleアカウント</a>でログイン</li>
+<li>サイトのドメインを入力</li>
+<li>[確認方法]タブのHTML ファイルをアップロードにチェック</li>
+<li>確認ファイル(googleXXXXXXXXXXX.html)が作成されるので<code>_deploy</code> ディレクトリにコピーし、リモートにプッシュ</li>
+</ul>
+
+
+<p>上記の手順で確認用URLが表示されるのでアップロードが正しく行われたことの確認を行い、問題なければ確認ボタンを押すことで所有権を紐付ける。<br/>
+ただしこの方法では、次回記事をデプロイした時に確認用ファイルが消されてしまうので、確認用ファイルをリモートにプッシュする方法ではなく
+メタ タグをサイトのホームページに追加する方法にする</p>
+
+<p>以下手順</p>
+
+<ul>
+<li>[確認方法]タブのHTMLタグにチェック</li>
+<li>meta タグが作成されるので、コピーする。</li>
+<li>source/_includes/head.html にメタタグを貼り付ける。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html&gt;
+</span><span class='line'>&lt;!--[if IEMobile 7 ]&gt;&lt;html class="no-js iem7"&gt;&lt;![endif]--&gt;
+</span><span class='line'>&lt;!--[if lt IE 9]&gt;&lt;html class="no-js lte-ie8"&gt;&lt;![endif]--&gt;
+</span><span class='line'>&lt;!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]&gt;&lt;!--&gt;&lt;html class="no-js" lang="en"&gt;&lt;!--&lt;![endif]--&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>  &lt;meta charset="utf-8"&gt;
+</span><span class='line'>+ &lt;meta name="google-site-verification" content="XXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXX" /&gt;
+</span><span class='line'>  &lt;title&gt;Octopress-Googleウェブマスターツール登録 - Wivern Blog&lt;/title&gt;
+</span><span class='line'>  &lt;meta name="author" content="wivern"&gt;
+</span><span class='line'>
+</span><span class='line'>  
+</span><span class='line'>  &lt;meta name="description" content=""&gt;
+</span><span class='line'>  </span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>デプロイ</li>
+<li>Googleウェブマスターツールのサイトの画面で[確認]をクリックし所有権を紐付ける。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress-theme変更]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-theme/"/>
+    <updated>2016-08-28T19:09:08+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-theme</id>
+    <content type="html"><![CDATA[<h3>Octopressのテーマを変更</h3>
+
+<p>今回casperというテーマに変更してみる。
+基本Githubにある<code>README.md</code>の手順どおりに進めればよい。</p>
+
+<h3>Installing</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd &lt;octopress directory&gt;
+</span><span class='line'>$ git clone https://github.com/jkrmr/casper .themes/casper
+</span><span class='line'>$ rake install['casper']
+</span><span class='line'>$ rake generate</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<h3>Updating</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd &lt;octopress directory&gt;/.themes/casper
+</span><span class='line'>$ git pull
+</span><span class='line'>$ rake install['casper']
+</span><span class='line'># regenerate, make changes, etc...</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>変更前</strong>
+<img src="https://i.gyazo.com/88ee966373339447f99a2e68651eef5a.png" alt="octopress default" /></p>
+
+<p><strong>変更後(casper)</strong>
+<img src="https://i.gyazo.com/df4e94a0feb5a90f467e7c80c925bab2.png" alt="octopress casper" /></p>
+
+<p><strong>変更後(octostrap3)</strong>
+<img src="https://i.gyazo.com/c2f349654d830dde84fd2e1780df8326.png" alt="octopress octostrap3" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress Facebook Like ボタン日本語化]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-facebook-like/"/>
+    <updated>2016-08-28T15:43:39+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-facebook-like</id>
+    <content type="html"><![CDATA[<h3>FacebookのLikeボタン日本語化</h3>
+
+<p>以前外部サービス連携でFacebookボタンを追加したが[Like]、[share]と英語表記になっているので
+日本語の[いいね]、[シェア]に変更</p>
+
+<!--more-->
+
+
+<h3><code>source/_includes/facebook_like.html</code>の編集</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+</span><span class='line'>+ js.src = "//connect.facebook.net/ja_JP/all.js#appId=212934732101925&xfbml=1";</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>en_US</code> を <code>ja_JP</code> に変更</p>
+
+<p><strong>変更前</strong>
+<img src="https://i.gyazo.com/d1bf65d5bc104cbe2c271fd9dca76381.png" alt="Facebook Like" /></p>
+
+<p><strong>変更後</strong>
+<img src="https://i.gyazo.com/209f66e232354b53fefa332f6e394dc8.png" alt="Facebook いいね" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[OctopressをGitHubのProject Pageで作成]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-projectpage-ghpages/"/>
+    <updated>2016-08-28T14:56:55+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-projectpage-ghpages</id>
+    <content type="html"><![CDATA[<h3>Project Page (gh-pages) にデプロイする場合</h3>
+
+<p>Github Pagesでサイトを公開する場合は<code>[username].github.io</code>というリポジトリを作成し、
+デプロイすることで<code>https://[username].github.io</code>でアクセスすることができるが、任意のリポジトリを作成し、
+Project Page(gh-pages)にデプロイすることもできる。</p>
+
+<!--more -->
+
+
+<p>ユーザのウェブページを公開するユーザサイト（User site）[username].github.io でアクセスとの違いは、
+URlが<code>https://[username].github.io/[repository_name/]</code>になることと
+<code>[username].github.io</code> リポジトリのときとは異なり、<code>_deploy/</code> ディレクトリは <code>gh-pages</code> ブランチに設定される。</p>
+
+<p>Octopressのインストールは以前書いたとおり<code>git clone</code>するだけ。<br/>
+あとは必要な<code>gem</code>を<code>bundle --path vendor/bunde</code>、<code>bundel exec rake install</code>でインストール。</p>
+
+<p>事前にGithubでリポジトリを作成しておく。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake setup_github_pages
+</span><span class='line'>Repository url: git@github.com:[username]/[username].github.io.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記によって、以下のことが行われる。</p>
+
+<ul>
+<li><code>git@github.com:[username]/[username].github.io.git</code> が <code>origin remote</code> として追加される</li>
+<li><code>_deploy/</code> ディレクトリがリポジトリの <code>gh-pages</code> ブランチに設定される</li>
+<li>親ディレクトリは <code>source</code> ブランチになる</li>
+</ul>
+
+
+<p>ソースコードを管理するため、remote のリポジトリURLを設定</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote add origin git@github.com:[username]/[repository_name].git 
+</span><span class='line'>$ git config branch.master.remote origin</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[OctopressにGoogle Analytics導入]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-google-analytics/"/>
+    <updated>2016-08-27T20:05:08+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-google-analytics</id>
+    <content type="html"><![CDATA[<h3>Google Analytics設定</h3>
+
+<p>Google Analytics(アナリティクス)とは、アクセス解析を行うことができる解析ツール。<br/>
+Octopress は、デフォルトで Google Analytics の設定をすることが可能。</p>
+
+<!--more-->
+
+
+<p>サイトページ内にトラッキングコードと呼ばれるJavaScript コードを埋め込み、
+訪問者がサイトへアクセスした際の閲覧情報がGoogle Analyticsサーバへ送信される仕組み。
+トラッキング IDとはUA-XXXXXXXX-Xのような文字列で、データの送信先となるアカウントや
+プロパティを Google アナリティクス側で特定するためのID。</p>
+
+<p><a href="http://www.google.co.jp/intl/ja/analytics/">Google Analytics</a>サイトに行き、ログインまたは
+アカウントを作成をクリックしログイン後、<code>プロパティ名</code>、<code>デフォルトのURL</code>等を設定し保存すると
+<code>トラッキング ID</code>が表示されるので<code>_config.yml</code>に設定する。</p>
+
+<h3>_config.ymlの編集</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Google Analytics</span>
+</span><span class='line'><span class="ss">google_analytics_tracking_id</span><span class="p">:</span> <span class="no">UA</span><span class="o">-</span><span class="no">XXXXXXXX</span><span class="o">-</span><span class="n">X</span>  <span class="c1"># &lt;- Google Analytics ID を指定</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ブログにアクセスされるたびに Google Analyticsで集計される。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[OctopressでsourceをBitbucket管理]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-repository-bitbacket/"/>
+    <updated>2016-08-27T15:47:33+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octopress-repository-bitbacket</id>
+    <content type="html"><![CDATA[<h3>ソース情報はBitbucketで管理</h3>
+
+<p>このブログはOctopressでGithubでホスティングしているが、ソースコードもGithubにpushしている。<br/>
+GitHubはいいサービスだと思うのですが、ソースコードの共有が前提となっていて、
+無料プランでは非公開リポジトリを作ることができない。</p>
+
+<!--more-->
+
+
+<p>BitbucketはGitHubと同じ、バージョン管理ツールのリポジトリを預かってくれるホスティングサービス。<br/>
+5ユーザーまでであれば、非公開レポジトリの数は無制限となっており、公開リポジトリがひとつもなくても構いません。<br/>
+Bitbacketのアカウントも取得しているのでソースコードをBitbacketで管理する方法も忘れないように書いておこうと思う。</p>
+
+<h3>Bitbucketでのリポジトリ作成・設定</h3>
+
+<ul>
+<li>BitBucketにログインして、リポジトリ作成</li>
+<li>[Repository name] - [GithubのRipository name]</li>
+<li>[アクセスレベル] - [これは非公開リポジトリです]にチェック</li>
+<li>[リポジトリタイプ] - [Git]</li>
+</ul>
+
+
+<h3>リモートととして登録</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote add bitbucket git@bitbucket.org:[username]/[username].github.io.git
+</span><span class='line'>$ git push  bitbucket source</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記の設定で現在リモートとして <code>origin</code>、<code>octopress</code>、<code>bitbucket</code> の3つが登録されることとなる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>% git remote -v
+</span><span class='line'>bitbucket       git@bitbucket.org:[username]/[username].github.io.git (fetch)
+</span><span class='line'>bitbucket       git@bitbucket.org:[username]/[username].github.io.git (push)
+</span><span class='line'>octopress       git://github.com/imathis/octopress.git (fetch)
+</span><span class='line'>octopress       git://github.com/imathis/octopress.git (push)
+</span><span class='line'>origin          git@github.com:[username]/[username].github.io.git (fetch)
+</span><span class='line'>origin          git@github.com:[username]/[username].github.io.git (push)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>記事の投稿をデプロイする場合は<code>bundle exec rake deploy</code>でバックアップは<code>git push bitbacket source</code>でBitbacketできるようになる。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopressにコメントを追加]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octpress-comments/"/>
+    <updated>2016-08-27T10:41:24+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/27/octpress-comments</id>
+    <content type="html"><![CDATA[<h3>コメント欄を追加</h3>
+
+<p>このブログは個人備忘録として書いているので特にコメント欄は必要ないとは思うが、
+今後導入するかどうかわからないので実際に導入して確認したので忘れないうちに書いておく。</p>
+
+<p>コメントはデフォルトで<a href="https://disqus.com/">Disqus</a>というサービスを利用できる。<br/>
+基本的にはコメントをブログと切り離して管理しブログパーツでコメント欄を提供してくれるサービス。<br/>
+<code>_config.yml</code>にコメントの<code>id</code>を設定することで使用可能。<br/>
+手順は以下のとおり</p>
+
+<!--more-->
+
+
+<ul>
+<li><a href="https://disqus.com/">Disqus</a>にログイン</li>
+<li>Disqus上にてコメントサービスを使うサイトを登録</li>
+<li>登録が完了すると設定ページが表示されるので、ここで設定をしつつ、ページ中段に表示されている<code>Shortname</code>の文字列を確認</li>
+<li>shortnameを<code>_config.yml</code>に入力</li>
+<li>deploy</li>
+</ul>
+
+
+<p>Disqus導入は_config.ymlファイルにDisqusで取得した<code>Shortname</code>を記載するのみで完了</p>
+
+<p><code>_config.yml</code> の<code>disqus_short_name</code>に自分のサイトの<code>Shortname</code>を指定</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Disqus Comments</span>
+</span><span class='line'><span class="ss">disqus_short_name</span><span class="p">:</span> <span class="n">sitesshortname</span>
+</span><span class='line'><span class="ss">disqus_show_comment_count</span><span class="p">:</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記を設定すると<code>source/_include/disqus.html</code>によって<code>disqus</code>用のコードを生成してくれる。</p>
+
+<p><img src="https://i.gyazo.com/82f9217e4935ccc5f3dcb1599384a682.png" alt="Disqus Comments" /></p>
+
+<p><code>disqus_show_comment_count</code>は任意でコメント欄のオン/オフは投稿記事単位で設定可能
+<code>disqus_show_comment_count</code> はDISQUSコメント欄を導入するページのヘッダにコメント欄へのリンクを表示させるかどうかを指定する項目。</p>
+
+<p><strong>disqus_show_comment_count: trueのとき</strong></p>
+
+<p><img src="https://i.gyazo.com/7232f4714811db0bcea23e041556a481.png" alt="disqus_show_comment_count: ture" /></p>
+
+<p><strong>disqus_show_comment_count: falseのとき</strong></p>
+
+<p><img src="https://i.gyazo.com/29fc1be984bb3130d74343aa94c4943b.png" alt="disqus_show_comment_count: false" /></p>
+
+<p><code>shortname</code>を後で確認したくなった場合は、Disqusで登録したサイトを選択し、右上にある<code>Setting</code>に移動すると表示される。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopressにタグクラウドとカテゴリーリストを追加する]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/26/octopress-category-list/"/>
+    <updated>2016-08-26T23:17:49+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/26/octopress-category-list</id>
+    <content type="html"><![CDATA[<h3>タグリストをサイドバーに表示させる。</h3>
+
+<p>Octopressのデフォルトのサイドメニューは<code>Recent Posts</code>のみの表示</p>
+
+<p><img src="https://i.gyazo.com/cf857d8c62f5f7564ddbd25c9c754f90.png" alt="Recent posts" /></p>
+
+<!--more-->
+
+
+<p>記事を新規投稿するときにYAML FRONT MATTERで<code>categories</code>を設定しているので、サイドメニューにCategoriesを表示させる。</p>
+
+<p>Octopress向けに公開されているプラグインを使ってサイドメニューにカテゴリーリストとタグクラウドを実装</p>
+
+<h4>tokkonopapa/octopress-tagcloud プラグイン</h4>
+
+<p><a href="https://github.com/tokkonopapa/octopress-tagcloud">https://github.com/tokkonopapa/octopress-tagcloud</a></p>
+
+<p>tokkonopapa/octopress-tagcloudのソースコードをcloneしてファイルを配布する。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone https://github.com/tokkonopapa/octopress-tagcloud.git
+</span><span class='line'>$ cp -p octopress-tagcloud/plugins/tag_cloud.rb plugins/
+</span><span class='line'>$ cp -p octopress-tagcloud/source/_includes/custom/asides/* source/_includes/custom/asides/</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.
+</span><span class='line'>├─ plugins/
+</span><span class='line'>│  └── tag_cloud.rb
+</span><span class='line'>└─ source/
+</span><span class='line'>   └─ _includes/
+</span><span class='line'>      └─ custom/
+</span><span class='line'>         └─ asides/
+</span><span class='line'>            ├─ category_list.html
+</span><span class='line'>            └─ tag_cloud.html</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>_config.yml</code>に<code>tokkonopapa/octopress-tagcloud</code> プラグインで生成する静的ファイルを
+サイドメニューのコンテンツとして使用するための設定を記述</p>
+
+<p><code>_config.yml</code>に<code>default_asides:</code>から始まる行があるが、サイドメニューに表示するHTMLファイルを配列で記述する。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>default_asides: [
+</span><span class='line'>    asides/recent_posts.html,
+</span><span class='line'>  + custom/asides/about.html,
+</span><span class='line'>  + custom/asides/tag_cloud.html
+</span><span class='line'>]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="https://i.gyazo.com/ef6d723b6ff2a154a49890d11c3c006d.png" alt="octopress-tagcloud" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress 続きを読む(Moreタグ)の設定]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/26/octopress-displayonlypart/"/>
+    <updated>2016-08-26T17:16:35+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/26/octopress-displayonlypart</id>
+    <content type="html"><![CDATA[<h3><code>&lt;!--more--&gt;</code>タグの追加</h3>
+
+<p>ブログを表示すると公開済の記事が時系列順にタイトルと本文が全て表示されるので、
+ブログを表示した時に本文を全て表示するのではなく一部だけを表示しておき、
+全ての本文を読むには「続きを読む >>」と書かれたリンクをクリックした時に
+表示させるよう<code>&lt;!--more--&gt;</code>タグを設置する。</p>
+
+<!--more-->
+
+
+<p> <code>bundel exec rake  new_post[title]</code>で作成後、<code>source/_posts/</code>に<code>source/_posts/YYYY-MM-DDD-title.markdown</code>ファイルができ
+ 記事の途中に以下を追記する。</p>
+
+<pre><code class="`ruby"> &lt;!-- more --&gt;
+</code></pre>
+
+<p> ただし上記の追記だけでは表示が<code>”Read on →“</code>になってるので<code>_config.yml</code>の<code>excerpt_link</code>を変更する。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">-</span> <span class="ss">excerpt_link</span><span class="p">:</span> <span class="s2">&quot;Read on &amp;rarr;&quot;</span>  <span class="c1"># &quot;Continue reading&quot; link text at the bottom of excerpted articles</span>
+</span><span class='line'><span class="o">+</span> <span class="ss">excerpt_link</span><span class="p">:</span> <span class="s2">&quot;続きを読む &amp;raquo;&quot;</span>  <span class="c1"># &quot;Continue reading&quot; link text at the bottom of excerpted articles</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress外部サービス連携]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/25/externalservicecooperation/"/>
+    <updated>2016-08-25T21:06:09+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/25/externalservicecooperation</id>
+    <content type="html"><![CDATA[<h3>Twitter, Google+, Facebookボタン追加</h3>
+
+<p><code>_config.yml</code> に <code>Twitter</code>, <code>Google+</code>, <code>Facebook</code> との連携の設定箇所がある。<br/>
+<code>twitter_tweet_button</code>、<code>google_plus_one</code>、<code>facebook_like</code>の値を<code>true</code>にすると、 記事の下にそれぞれのシェアリングボタンが出るようになる(デフォルトだとtwitterだけ表示されるようになっている ) <br/>
+Twitterは<code>twitter_user</code>を記入してやることで 自分のツイート等も表記できるように設定できる。</p>
+
+<!-- more -->
+
+
+<h3>_config.ymal編集</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Twitter</span>
+</span><span class='line'><span class="ss">twitter_user</span><span class="p">:</span>
+</span><span class='line'><span class="ss">twitter_tweet_button</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Google +1</span>
+</span><span class='line'><span class="o">-</span> <span class="ss">google_plus_one</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="o">+</span> <span class="ss">google_plus_one</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="ss">google_plus_one_size</span><span class="p">:</span> <span class="n">medium</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Google Plus Profile</span>
+</span><span class='line'><span class="c1"># Hidden: No visible button, just add author information to search results</span>
+</span><span class='line'><span class="ss">googleplus_user</span><span class="p">:</span>
+</span><span class='line'><span class="ss">googleplus_hidden</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Facebook Like</span>
+</span><span class='line'><span class="o">-</span> <span class="ss">facebook_like</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="o">+</span> <span class="ss">facebook_like</span><span class="p">:</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopressの日時表示設定]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/25/octpresseditconfigyml/"/>
+    <updated>2016-08-25T20:15:39+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/25/octpresseditconfigyml</id>
+    <content type="html"><![CDATA[<h2>日時表示設定</h2>
+
+<p>投稿記事の日時はデフォルトで<code>AUG 25TH, 2016 3:00 PM</code>のような表示になっているが、
+<a href="http://ruby-doc.org/core-1.9.2/Time.html#method-i-strftim">rubyの時間表記表現</a> を使って 好きなように変更可能</p>
+
+<!-- more -->
+
+
+<h3>_config.yamlを編集</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">-</span> <span class="ss">date_format</span><span class="p">:</span> <span class="s2">&quot;ordinal&quot;</span>
+</span><span class='line'><span class="o">+</span> <span class="ss">date_format</span><span class="p">:</span> <span class="s2">&quot;%Y年%m月%d日&quot;</span> <span class="c1"># e.g. 2016年08月25日</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上記の設定で<code>2016年08月25日 8:15 PM</code>というような表示になる。</p>
+
+<p>時間が12時間表記で気に入らなかったので24時間表記表示にするため<code>_config.ymlを編集</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="ss">date_format</span><span class="p">:</span> <span class="s2">&quot;%Y年%m月%d日&quot;</span> <span class="c1"># e.g. 2016年08月25日</span>
+</span><span class='line'><span class="o">+</span> <span class="ss">time_format</span><span class="p">:</span> <span class="s2">&quot;%H:%M:%S&quot;</span>     <span class="c1"># 24 hour time</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>表示が<code>2016年08月25日 20:15:39</code>というような表示になる。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[OctopressとGithub Pagesを使ったブログの作成]]></title>
+    <link href="http://blackhawk888.github.io/octopress-test/blog/2016/08/25/octopress/"/>
+    <updated>2016-08-25T15:00:37+00:00</updated>
+    <id>http://blackhawk888.github.io/octopress-test/blog/2016/08/25/octopress</id>
+    <content type="html"><![CDATA[<h2>Octopressの特徴</h2>
+
+<ul>
+<li>Octopress は jekyll を使って作るブログ構築用フレームワーク</li>
+<li>Markdown記法で書ける</li>
+<li>静的ファイル →　軽い</li>
+</ul>
+
+
+<p>今回はブログ記事そのものは <a href="https://pages.github.com/">GitHub Pages</a>にホスティングする。</p>
+
+<!-- more -->
+
+
+<h2>GitHub Pagesの特徴</h2>
+
+<ul>
+<li>GitHubが提供するホスティングサービス</li>
+<li>ウェブページをインターネット上に公開することができる。</li>
+<li>プロジェクトのウェブページをGit/GitHubのリポジトリを用いて、公開することが可能(プロジェクトの場合はプロジェクトリポジトリの gh-pages ブランチで行う)</li>
+<li>HTML,CSS, JavaScriptを配置することが出来るので、ブログだけではなくGitHub Pages だけで静的なページを作成することができる。</li>
+</ul>
+
+
+<p>今回はプロジェクトのウェブページを公開するプロジェクトサイト（Project site）ではなくユーザのウェブページを公開するユーザサイト（User site）[username].github.io
+でアクセスできるようにする。</p>
+
+<h2>Octopressのインストール</h2>
+
+<p>octopress を GitHub からクローンしてくる</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'>
+</span><span class='line'>Cloning into <span class="s1">&#39;octopress&#39;</span>...
+</span><span class='line'>remote: Counting objects: 5685, <span class="k">done</span>.
+</span><span class='line'>remote: Compressing objects: 100% <span class="o">(</span>2262/2262<span class="o">)</span>, <span class="k">done</span>.
+</span><span class='line'>remote: Total <span class="m">5685</span> <span class="o">(</span>delta 3247<span class="o">)</span>, reused <span class="m">5225</span> <span class="o">(</span>delta 2933<span class="o">)</span>
+</span><span class='line'>Receiving objects: 100% <span class="o">(</span>5685/5685<span class="o">)</span>, 1.21 MiB <span class="p">|</span> <span class="m">435</span> KiB/s, <span class="k">done</span>.
+</span><span class='line'>Resolving deltas: 100% <span class="o">(</span>3247/3247<span class="o">)</span>, <span class="k">done</span>.
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>octopuress
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>必要な gem をインストールする</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bundle</span> <span class="o">--</span><span class="n">path</span> <span class="n">vendor</span><span class="o">/</span><span class="n">bundle</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Octopressをセットアップ(<code>bundel exec rake install</code>)する前にoctpressディレクトリのRakefileを修正する。
+通常の場合そのまま<code>bundle ecec rake install</code>して問題ないがCloud9を使用いているためその後の<code>bundle exec rake preview</code>を
+実行してプレビューが見れない為の対処</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">themes_dir</span>      <span class="o">=</span> <span class="s2">&quot;.themes&quot;</span>   <span class="c1"># directory for blog files</span>
+</span><span class='line'> <span class="n">new_post_ext</span>    <span class="o">=</span> <span class="s2">&quot;markdown&quot;</span>  <span class="c1"># default new post file extension when using the new_post task</span>
+</span><span class='line'> <span class="n">new_page_ext</span>    <span class="o">=</span> <span class="s2">&quot;markdown&quot;</span>  <span class="c1"># default new page file extension when using the new_page task</span>
+</span><span class='line'><span class="o">-</span><span class="n">server_port</span>     <span class="o">=</span> <span class="s2">&quot;4000&quot;</span>      <span class="c1"># port for preview server eg. localhost:4000</span>
+</span><span class='line'><span class="o">+</span><span class="n">server_host</span>     <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;IP&#39;</span><span class="o">]</span> <span class="o">||=</span> <span class="s1">&#39;0.0.0.0&#39;</span>     <span class="c1"># server bind address for preview server</span>
+</span><span class='line'><span class="o">+</span><span class="n">server_port</span>     <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;PORT&#39;</span><span class="o">]</span> <span class="o">||=</span> <span class="s2">&quot;4000&quot;</span>      <span class="c1"># port for preview server eg. localhost:4000</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'> <span class="n">desc</span> <span class="s2">&quot;Initial setup for Octopress: copies the default theme into the path of Jekyll&#39;s generator. Rake install defaults to rake install[classic] to install a different theme run rake install[some_theme_name]&quot;</span>
+</span><span class='line'><span class="err">@@</span> <span class="o">-</span><span class="mi">78</span><span class="p">,</span><span class="mi">7</span> <span class="o">+</span><span class="mi">79</span><span class="p">,</span><span class="mi">7</span> <span class="err">@@</span> <span class="n">task</span> <span class="ss">:preview</span> <span class="k">do</span>
+</span><span class='line'>   <span class="nb">system</span> <span class="s2">&quot;compass compile --css-dir </span><span class="si">#{</span><span class="n">source_dir</span><span class="si">}</span><span class="s2">/stylesheets&quot;</span> <span class="k">unless</span> <span class="no">File</span><span class="o">.</span><span class="n">exist?</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">source_dir</span><span class="si">}</span><span class="s2">/stylesheets/screen.css&quot;</span><span class="p">)</span>
+</span><span class='line'>   <span class="n">jekyllPid</span> <span class="o">=</span> <span class="no">Process</span><span class="o">.</span><span class="n">spawn</span><span class="p">({</span><span class="s2">&quot;OCTOPRESS_ENV&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;preview&quot;</span><span class="p">},</span> <span class="s2">&quot;jekyll --auto&quot;</span><span class="p">)</span>
+</span><span class='line'>   <span class="n">compassPid</span> <span class="o">=</span> <span class="no">Process</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="s2">&quot;compass watch&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">-</span>  <span class="n">rackupPid</span> <span class="o">=</span> <span class="no">Process</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="s2">&quot;rackup --port </span><span class="si">#{</span><span class="n">server_port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">+</span>  <span class="n">rackupPid</span> <span class="o">=</span> <span class="no">Process</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="s2">&quot;rackup --host </span><span class="si">#{</span><span class="n">server_host</span><span class="si">}</span><span class="s2"> --port </span><span class="si">#{</span><span class="n">server_port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nb">trap</span><span class="p">(</span><span class="s2">&quot;INT&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>     <span class="o">[</span><span class="n">jekyllPid</span><span class="p">,</span> <span class="n">compassPid</span><span class="p">,</span> <span class="n">rackupPid</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">pid</span><span class="o">|</span> <span class="no">Process</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span> <span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ESRCH</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Octopressをセットアップ</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>プレビューする<br/>
+<code>http://localhost:4000/</code> にアクセスすると、ブログのプレビューを見ることが出来る。<br/>
+今回はCloud9をしようしているので<code>https://workspace_name-account_name.c9users.io</code>でアクセする</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span> <span class="n">preview</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="https://gyazo.com/bdc0552c1f616a24f83ba55e74b21f52"><img src="https://i.gyazo.com/bdc0552c1f616a24f83ba55e74b21f52.png" alt="https://gyazo.com/bdc0552c1f616a24f83ba55e74b21f52" /></a></p>
+
+<h2>GitHubにリポジトリを作成</h2>
+
+<p>[username].github.io
+という名前でリポジトリを作る。</p>
+
+<h2>Octopress の初期設定</h2>
+
+<p><code>bundle exec rake setup_github_pages</code> タスクを実行し GitHub Pages にデプロイするファイルを生成する。<br/>
+この時、[username].github.io のように GitHub Pages のリポジトリを git か https プロトコルを指定する</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">% bundle </span><span class="nb">exec</span> <span class="n">rake</span> <span class="n">setup_github_pages</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Enter</span> <span class="n">the</span> <span class="n">read</span><span class="o">/</span><span class="n">write</span> <span class="n">url</span> <span class="k">for</span> <span class="n">your</span> <span class="n">repository</span>
+</span><span class='line'><span class="p">(</span><span class="no">For</span> <span class="n">example</span><span class="p">,</span> <span class="s1">&#39;git@github.com:[username]/[username].github.io.git)</span>
+</span><span class='line'><span class="s1">           or &#39;</span><span class="ss">https</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/[</span><span class="n">username</span><span class="o">]/[</span><span class="n">username</span><span class="o">].</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="s1">&#39;)</span>
+</span><span class='line'><span class="s1">Repository url: git@github.com:srym/srym.github.io.git</span>
+</span><span class='line'><span class="s1">Added remote git@github.com:srym/srym.github.io.git as origin</span>
+</span><span class='line'><span class="s1">Set origin as default remote</span>
+</span><span class='line'><span class="s1">Master branch renamed to &#39;</span><span class="n">source</span><span class="err">&#39;</span> <span class="k">for</span> <span class="n">committing</span> <span class="n">your</span> <span class="n">blog</span> <span class="n">source</span> <span class="n">files</span>
+</span><span class='line'><span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">_deploy</span>
+</span><span class='line'><span class="n">mkdir</span> <span class="n">_deploy</span>
+</span><span class='line'><span class="n">cd</span> <span class="n">_deploy</span>
+</span><span class='line'><span class="no">Initialized</span> <span class="n">empty</span> <span class="no">Git</span> <span class="n">repository</span> <span class="k">in</span> <span class="sr">/Users/s</span><span class="n">hiroyama</span><span class="o">/</span><span class="n">playGround</span><span class="o">/</span><span class="n">octopress</span><span class="o">/</span><span class="n">_deploy</span><span class="o">/.</span><span class="n">git</span><span class="o">/</span>
+</span><span class='line'><span class="o">[</span><span class="n">master</span> <span class="p">(</span><span class="n">root</span><span class="o">-</span><span class="n">commit</span><span class="p">)</span> <span class="n">dacfaa2</span><span class="o">]</span> <span class="no">Octopress</span> <span class="n">init</span>
+</span><span class='line'> <span class="mi">1</span> <span class="n">file</span> <span class="n">changed</span><span class="p">,</span> <span class="mi">1</span> <span class="n">insertion</span><span class="p">(</span><span class="o">+</span><span class="p">)</span>
+</span><span class='line'> <span class="n">create</span> <span class="n">mode</span> <span class="mi">100644</span> <span class="n">index</span><span class="o">.</span><span class="n">html</span>
+</span><span class='line'><span class="n">cd</span> <span class="o">-</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">---</span>
+</span><span class='line'><span class="c1">## Now you can deploy to git@github.com:srym/srym.github.io.git with `rake deploy` ##</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これによって、以下のことが行われる。</p>
+
+<ul>
+<li><code>git@github.com:[username]/[username].github.io.git</code> が <code>origin</code> <code>remote</code> として追加される</li>
+<li><code>_deploy/</code> ディレクトリがリポジトリの <code>master</code> ブランチに設定される</li>
+<li>親ディレクトリは <code>source</code> というブランチになる</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">% git </span><span class="n">remote</span> <span class="o">-</span><span class="n">v</span>
+</span><span class='line'><span class="n">octopress</span>       <span class="ss">git</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">fetch</span><span class="p">)</span>
+</span><span class='line'><span class="n">octopress</span>       <span class="ss">git</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">imathis</span><span class="o">/</span><span class="n">octopress</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">push</span><span class="p">)</span>
+</span><span class='line'><span class="n">origin</span>          <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="o">[</span><span class="n">username</span><span class="o">]/[</span><span class="n">username</span><span class="o">].</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">fetch</span><span class="p">)</span>
+</span><span class='line'><span class="n">origin</span>          <span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="o">[</span><span class="n">username</span><span class="o">]/[</span><span class="n">username</span><span class="o">].</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git</span> <span class="p">(</span><span class="n">push</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>_config.yml を編集</h3>
+
+<p>_config.ymlファイルにてブログのタイトル、サブタイトル、筆者を設定する。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># _config.yml</span>
+</span><span class='line'>
+</span><span class='line'><span class="ss">url</span><span class="p">:</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="o">[</span><span class="n">username</span><span class="o">].</span><span class="n">github</span><span class="o">.</span><span class="n">io</span>
+</span><span class='line'><span class="ss">title</span><span class="p">:</span> <span class="err">ブログのタイトル</span>
+</span><span class='line'><span class="ss">subtitle</span><span class="p">:</span> <span class="err">ブログのサブタイトル</span>
+</span><span class='line'><span class="ss">author</span><span class="p">:</span> <span class="err">筆者</span>
+</span><span class='line'><span class="ss">simple_search</span><span class="p">:</span> <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">google</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">search</span>
+</span><span class='line'><span class="ss">description</span><span class="p">:</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>記事の投稿</h2>
+
+<h3>記事を書く</h3>
+
+<p>Rake タスクで記事のひな形が生成される。
+new_postの後には記事のタイトルを指定。英数字のみ使用可</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">% bundle </span><span class="nb">exec</span> <span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="n">title</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">mkdir</span> <span class="o">-</span><span class="nb">p</span> <span class="n">source</span><span class="o">/</span><span class="n">_posts</span>
+</span><span class='line'><span class="no">Creating</span> <span class="kp">new</span> <span class="ss">post</span><span class="p">:</span> <span class="n">source</span><span class="o">/</span><span class="n">_posts</span><span class="o">/</span><span class="no">YYYY</span><span class="o">-</span><span class="no">MM</span><span class="o">-</span><span class="no">DD</span><span class="o">-</span><span class="n">title</span><span class="o">.</span><span class="n">markdown</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>source/_posts/YYYY-MM-DDD-title.markdown</code>というファイルが生成されるので内容をマークダウンで記述する。
+またファイル上部にはブログのメタ情報がYAML FRONT MATTERで記述されているので適宜編集する。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span><span class="o">/</span>
+</span><span class='line'><span class="err">└──</span> <span class="n">_post</span><span class="o">/</span>
+</span><span class='line'>    <span class="err">└──</span> <span class="no">YYYY</span><span class="o">-</span><span class="no">MM</span><span class="o">-</span><span class="no">DD</span><span class="o">-</span><span class="n">post</span><span class="o">-</span><span class="n">title</span><span class="o">.</span><span class="n">markdown</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">layout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">post</span>
+</span><span class='line'><span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="s">&quot;&#39;記事のタイトル&#39;&quot;</span>
+</span><span class='line'><span class="l-Scalar-Plain">date</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2016-08-25 00:00:00 +0900</span>
+</span><span class='line'><span class="l-Scalar-Plain">comments</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'><span class="l-Scalar-Plain">categories</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">ここ以下に内容をマークダウンで書く</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここで、title を日本語にすれば良い</p>
+
+<p>ブログのカテゴリ(categories)は以下のように色々な方法で指定できる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="c1"># One category</span>
+</span><span class='line'><span class="l-Scalar-Plain">categories</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">octopress</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Multiple categories example 1</span>
+</span><span class='line'><span class="l-Scalar-Plain">categories</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">octopress</span><span class="p-Indicator">,</span> <span class="nv">jekyll</span><span class="p-Indicator">,]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Multiple categories example 2</span>
+</span><span class='line'><span class="l-Scalar-Plain">categories</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">octopress</span>
+</span><span class='line'><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">jekyll</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Github Pagesにデプロイする</h2>
+
+<h3>ページの生成</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span> <span class="n">generate</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">## Generating Site with Jekyll</span>
+</span><span class='line'>    <span class="n">write</span> <span class="n">source</span><span class="o">/</span><span class="n">stylesheets</span><span class="o">/</span><span class="n">screen</span><span class="o">.</span><span class="n">css</span>
+</span><span class='line'><span class="no">Configuration</span> <span class="ss">file</span><span class="p">:</span> <span class="sr">/home/u</span><span class="n">buntu</span><span class="o">/</span><span class="n">workspace</span><span class="o">/</span><span class="n">octopress</span><span class="o">/</span><span class="n">_config</span><span class="o">.</span><span class="n">yml</span>
+</span><span class='line'>            <span class="ss">Source</span><span class="p">:</span> <span class="n">source</span>
+</span><span class='line'>       <span class="ss">Destination</span><span class="p">:</span> <span class="kp">public</span>
+</span><span class='line'>      <span class="no">Generating</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>                    <span class="n">done</span><span class="o">.</span>
+</span><span class='line'> <span class="no">Auto</span><span class="o">-</span><span class="ss">regeneration</span><span class="p">:</span> <span class="n">disabled</span><span class="o">.</span> <span class="no">Use</span> <span class="o">--</span><span class="n">watch</span> <span class="n">to</span> <span class="n">enable</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Github Pagesにデプロイ</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span> <span class="n">deploy</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">## Deploying branch to Github Pages </span>
+</span><span class='line'><span class="c1">## Pulling any updates from Github Pages </span>
+</span><span class='line'><span class="n">cd</span> <span class="n">_deploy</span>
+</span><span class='line'><span class="no">There</span> <span class="n">is</span> <span class="n">no</span> <span class="n">tracking</span> <span class="n">information</span> <span class="k">for</span> <span class="n">the</span> <span class="n">current</span> <span class="n">branch</span><span class="o">.</span>
+</span><span class='line'><span class="no">Please</span> <span class="n">specify</span> <span class="n">which</span> <span class="n">branch</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">merge</span> <span class="n">with</span><span class="o">.</span>
+</span><span class='line'><span class="no">See</span> <span class="n">git</span><span class="o">-</span><span class="n">pull</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">details</span><span class="o">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">~</span><span class="err">略</span><span class="o">~</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">## Pushing generated _deploy website</span>
+</span><span class='line'><span class="no">Username</span> <span class="k">for</span> <span class="s1">&#39;https://github.com&#39;</span><span class="p">:</span> <span class="no">Github</span><span class="err">のユーザアカウントを入力</span>
+</span><span class='line'><span class="no">Password</span> <span class="k">for</span> <span class="s1">&#39;https://wivern888#gmail.com@github.com&#39;</span><span class="p">:</span> <span class="err">パスワードを入力</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Counting</span> <span class="ss">objects</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="n">done</span><span class="o">.</span>
+</span><span class='line'><span class="no">Delta</span> <span class="n">compression</span> <span class="n">using</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">8</span> <span class="n">threads</span><span class="o">.</span>
+</span><span class='line'><span class="no">Compressing</span> <span class="ss">objects</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">17</span><span class="o">/</span><span class="mi">17</span><span class="p">),</span> <span class="n">done</span><span class="o">.</span>
+</span><span class='line'><span class="no">Writing</span> <span class="ss">objects</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">24</span><span class="o">/</span><span class="mi">24</span><span class="p">),</span> <span class="mi">9</span><span class="o">.</span><span class="mi">98</span> <span class="no">KiB</span> <span class="o">|</span> <span class="mi">0</span> <span class="n">bytes</span><span class="o">/</span><span class="n">s</span><span class="p">,</span> <span class="n">done</span><span class="o">.</span>
+</span><span class='line'><span class="no">Total</span> <span class="mi">24</span> <span class="p">(</span><span class="n">delta</span> <span class="mi">11</span><span class="p">),</span> <span class="n">reused</span> <span class="mi">0</span> <span class="p">(</span><span class="n">delta</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="ss">remote</span><span class="p">:</span> <span class="no">Resolving</span> <span class="ss">deltas</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">11</span><span class="o">/</span><span class="mi">11</span><span class="p">),</span> <span class="n">completed</span> <span class="n">with</span> <span class="mi">2</span> <span class="n">local</span> <span class="n">objects</span><span class="o">.</span>
+</span><span class='line'><span class="no">To</span> <span class="ss">https</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">blackhawk888</span><span class="o">/</span><span class="n">blackhawk888</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git</span>
+</span><span class='line'>   <span class="n">b6205ae</span><span class="o">.</span><span class="n">.f7112f2</span>  <span class="n">master</span> <span class="o">-&gt;</span> <span class="n">master</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">## Github Pages deploy complete</span>
+</span><span class='line'><span class="n">cd</span> <span class="o">-</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> <a href="http://">http://</a>[username].github.ioにアクセスし作成したブログの記事が表示されるのを確認する。</p>
+
+<p>デプロイ時には、下記コマンドを実行するが、これによって、<code>_deploy/</code> 以下にサイトのコンテンツ一式がビルドされ、その内容が GitHub に <code>push</code> されます。
+<a href="http://">http://</a>[username].github.io/ にアクセスすると、ローカルまたはCloud9でpreview した画面と同じ内容が表示されるようになる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span> <span class="n">generate</span>
+</span><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span> <span class="n">deploy</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>また上記コマンドを別々に実行しなくても以下のコマンドでビルド及びデプロイを同時に行うことができる。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span> <span class="n">gen_deploy</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最後に、ソースコードを管理するために、<code>source</code> ブランチも <code>push</code> しておく</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;message&#39;</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+</feed>

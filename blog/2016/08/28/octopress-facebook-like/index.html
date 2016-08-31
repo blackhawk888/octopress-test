@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Octopress Facebook Like ボタン日本語化 - Wivern Blog</title>
+  <meta name="author" content="wivern">
+
+  
+  <meta name="description" content="FacebookのLikeボタン日本語化 以前外部サービス連携でFacebookボタンを追加したが[Like]、[share]と英語表記になっているので
+日本語の[いいね]、[シェア]に変更 source/_includes/facebook_like.htmlの編集 1
+2
+- js.src &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-facebook-like/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wivern Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-83193160-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wivern Blog</a></h1>
+  
+    <h2>Personal-Tech memorandum</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blackhawk888.github.io/octopress-test">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Octopress Facebook Like ボタン日本語化</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-28T15:43:39+00:00'><span class='date'>2016年08月28日</span> <span class='time'>15:43:39</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>FacebookのLikeボタン日本語化</h3>
+
+<p>以前外部サービス連携でFacebookボタンを追加したが[Like]、[share]と英語表記になっているので
+日本語の[いいね]、[シェア]に変更</p>
+
+<!--more-->
+
+
+<h3><code>source/_includes/facebook_like.html</code>の編集</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+</span><span class='line'>+ js.src = "//connect.facebook.net/ja_JP/all.js#appId=212934732101925&xfbml=1";</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>en_US</code> を <code>ja_JP</code> に変更</p>
+
+<p><strong>変更前</strong>
+<img src="https://i.gyazo.com/d1bf65d5bc104cbe2c271fd9dca76381.png" alt="Facebook Like" /></p>
+
+<p><strong>変更後</strong>
+<img src="https://i.gyazo.com/209f66e232354b53fefa332f6e394dc8.png" alt="Facebook いいね" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wivern</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-08-28T15:43:39+00:00'><span class='date'>2016年08月28日</span> <span class='time'>15:43:39</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-facebook-like/" data-via="" data-counturl="http://blackhawk888.github.io/octopress-test/blog/2016/08/28/octopress-facebook-like/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/08/28/octopress-projectpage-ghpages/" title="Previous Post: OctopressをGitHubのProject Pageで作成">&laquo; OctopressをGitHubのProject Pageで作成</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/08/28/octopress-theme/" title="Next Post: octopress-theme変更">octopress-theme変更 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Profile</h1>
+  
+    <img src="http://www.gravatar.com/avatar/d193dda398c5fa836f1d8007d64be8de" alt="Gravatar of wivern" title="Gravatar of wivern" align="left" style="margin-right:10px;" />
+  
+  Hoge Hoge
+  <br clear="left">
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/31/octopress-edit-rakefile/">Octopress-Rakefile編集</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/31/octopress-draft/">Octopress-下書きをdeployしないようにする</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/30/octopress-sidebar-gravatar/">Octopress-サイドバーにGravatar追加</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/30/octopress-sidebar-profile/">Octopress-サイドバーにProfile追加</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/29/octopress-newpage/">Octopress-新規ページ作成</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/bitbacket/'>bitbacket (1)</a></li><li><a href='/blog/categories/google-analytics/'>google analytics (1)</a></li><li><a href='/blog/categories/octopress/'>octopress (17)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/categories/bitbacket' style='font-size: 103.52941176470588%'>bitbacket(1)</a> <a href='/blog/categories/google-analytics' style='font-size: 103.52941176470588%'>google analytics(1)</a> <a href='/blog/categories/octopress' style='font-size: 160.0%'>octopress(17)</a> </span>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wivern -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
